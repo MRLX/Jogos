@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<time.h>
 #include<stdlib.h>
 #define jog1 8
 #define jog2 7
@@ -24,6 +25,7 @@ int tabuleiro [8][8]= {{ 0,  1,  2,  3,  4,  5,  6,  7},
 void mostratabuleiro()
 {
 	int i,j;
+	printf("\t\t\t\tTABULEIRO\n\n");
 	for(i=0;i<8;i++)
 	{
 		for(j=0;j<8;j++)
@@ -397,9 +399,28 @@ void comparacao1()
                  
 
 int main(){
-	mostratabuleiro();
+	int opcao;
+	
 	printf("\n\t################JOGO DE TRILHA#######################\n");
-	jogadores();
+	printf("\n\n");
+	printf("O jogador 1 sera representado pelo numero 8\n");
+	printf("\n");
+	printf("O jogador 2 sera representado pelo numero 7\n");
+	printf("\nO jogo consiste em movimentar as pecas pelos 0's e formar as trilhas\n");
+	printf("\n\n");
+	printf("Digite 1 para jogar 2 para sair\n");
+	scanf("%d",&opcao);
+	switch(opcao)
+	{
+		case 1:
+			system("cls");
+			mostratabuleiro();
+			jogadores();
+			break;
+		case 2:
+			printf("TCHAUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU\n");
+			exit(0);
+	}
 	
 	
 	return 0;

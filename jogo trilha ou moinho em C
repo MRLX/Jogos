@@ -1,0 +1,406 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define jog1 8
+#define jog2 7
+
+
+void jogadores();
+void exclusao2(int horizontal,int vertical);
+void exclusao1(int horizontal,int vertical);
+void comparacao1();
+void comparacao2();
+void movimentacao2();
+void movimentacao1();
+
+int cont=0,cont2=0;
+int tabuleiro [8][8]= {{ 0,  1,  2,  3,  4,  5,  6,  7}, 
+                        {1,  0,  1,  1,  0,  1,  1,  0},
+                        {2,  1,  0,  1,  0,  1,  0,  1},
+                        {3,  1,  1,  0,  0,  0,  1,  1},
+                        {4,  0,  0,  0,  1,  0,  0,  0},
+                        {5,  1,  1,  0,  0,  0,  1,  1},
+                        {6,  1,  0,  1,  0,  1,  0,  1},
+                        {7,  0,  1,  1,  0,  1,  1,  0}};
+void mostratabuleiro()
+{
+	int i,j;
+	for(i=0;i<8;i++)
+	{
+		for(j=0;j<8;j++)
+		{
+			printf("%d         ",tabuleiro[i][j]);
+		}
+		printf("\n");
+	}
+}
+                        
+void posicaotabuleiro(int horizontal,int vertical)
+{
+	if(tabuleiro[horizontal][vertical]==0)
+		tabuleiro[horizontal][vertical]=jog1;
+}
+
+void posicaotabuleiro2(int horizontal,int vertical)
+{
+	if(tabuleiro[horizontal][vertical]==0)
+		tabuleiro[horizontal][vertical]=jog2;
+		
+}
+
+void checatabuleiro2()
+{
+	int i,j;
+	for(i=0;i<7;i++)
+	{
+		for(j=0;j<7;j++)
+		{
+			if(tabuleiro[i][j]==jog2)
+				cont2++;
+		}
+	}
+	if(cont2==2)
+	{
+		system("cls");
+		printf("JOGADOR 1 VENCEUUUU UHUUUUULLL\n");
+	}
+	else
+		cont2=0;
+}
+
+void checatabuleiro1()
+{
+	int i,j;
+	for(i=0;i<7;i++)
+	{
+		for(j=0;j<7;j++)
+		{
+			if(tabuleiro[i][j]==jog1)
+				cont++;
+		}
+	}
+	if(cont==2)
+	{
+		system("cls");
+		printf("JOGADOR 2 VENCEU UHUUUUUUL\n");
+	}
+	else
+		cont=0;
+}
+
+void jogadores()
+{
+	int g,position1,vertical1,position2,vertical2;
+	for(g=0;g<9;g++)
+	{
+		printf("Digite sua posicao horizontal jogador 1 \n");
+		scanf("%d",&position1);
+		printf("Digite a vertical jogador 1 \n");
+		scanf("%d",&vertical1);
+		while(tabuleiro[position1][vertical1]!=0||position1<1||position1>7||vertical1<1||vertical1>7)
+		{
+			printf("Posicao invalida. Digite novamente\n");
+			printf("Digite sua posicao horizontal jogador 1\n");
+			scanf("%d",&position1);
+			printf("Digite a vertical jogador 1\n");
+			scanf("%d",&vertical1);
+		}
+		posicaotabuleiro(position1,vertical1);
+		system("cls");
+		comparacao1();
+		mostratabuleiro();
+		//---------------------------------------jogador2----------------------
+		printf("Digite sua posicao horizontal jogador 2\n");
+		scanf("%d",&position2);
+		printf("Digite a vertical jogador 2\n");
+		scanf("%d",&vertical2);
+		while(tabuleiro[position2][vertical2]!=0||position2<1||position2>7||vertical2<1||vertical2>7)
+		{
+			printf("Posicao invalida. Digite novamente\n");
+			printf("Digite sua posicao horizontal jogador 2\n");
+			scanf("%d",&position2);
+			printf("Digite a vertical jogador 2\n");
+			scanf("%d",&vertical2);
+		}
+		posicaotabuleiro2(position2,vertical2);
+		system("cls");
+		comparacao2();
+		mostratabuleiro();
+		if(g==8)
+		{
+			while(cont!=2||cont2!=2)
+			{
+				movimentacao1();
+				checatabuleiro1();
+				comparacao1();
+				checatabuleiro1();
+				system("cls");
+				mostratabuleiro();
+				movimentacao2();
+				checatabuleiro2();
+				comparacao2();
+				checatabuleiro2();
+				system("cls");
+				mostratabuleiro();
+			}
+		}
+		
+		
+	}
+	
+}
+
+void movimentacao1()
+{
+	int horizontal,vertical,horizontal1,vertical1;
+	printf("Jogador 1 digite a posicao horizontal da peca que deseja mover\n");
+	scanf("%d",&horizontal);
+	printf("Agora digite a posicao vertical\n");
+	scanf("%d",&vertical);
+	while(tabuleiro[horizontal][vertical]!=0||horizontal<1||vertical>7||vertical<1||horizontal>7)
+	{
+		printf("Posicao invalida. Digite novamente\n");
+		printf("Digite sua posicao horizontal jogador 2\n");
+		scanf("%d",&horizontal);
+		printf("Digite a vertical jogador 2 \n");
+		scanf("%d",&vertical);
+	}
+	if(tabuleiro[horizontal][vertical]==jog2)
+	{
+		printf("Agora digite a posicao que deseja movimentar a peca. Lembrando que voce so pode movimentar para as posicoes proximas\n");
+		printf("Jogador 1 digite a posicao horizontal\n");
+		scanf("%d",&horizontal1);
+		printf("Agora digite a vertical\n");
+		scanf("%d",&vertical1);
+		while(tabuleiro[horizontal1][vertical1]!=0)
+		{
+			system("cls");
+			mostratabuleiro();
+			printf("Posicao invalida. Digite novamente\n");
+			printf("Jogador 1 digite a posicao horizontal\n");
+			scanf("%d",&horizontal1);
+			printf("Agora digite a vertical\n");
+			scanf("%d",&vertical1);
+			
+		}
+		if(tabuleiro[horizontal1][vertical1]==0)
+		{
+			tabuleiro[horizontal1][vertical1]=jog1;
+			tabuleiro[horizontal][vertical]=0;
+		}
+	}	
+}
+
+void movimentacao2()
+{
+	int horizontal,vertical,horizontal2,vertical2;
+	printf("Jogador 2 digite a posicao horizontal da peca que deseja mover\n");
+	scanf("%d",&horizontal);
+	printf("Agora digite a posicao vertical\n");
+	scanf("%d",&vertical);
+	while(tabuleiro[horizontal][vertical]!=0||horizontal<1||horizontal>7||vertical<1||vertical>7)
+	{
+		printf("Posicao invalida. Digite novamente\n");
+		printf("Digite sua posicao horizontal jogador 2 \n");
+		scanf("%d",&horizontal);
+		printf("Digite a vertical jogador 2 \n");
+		scanf("%d",&vertical);
+	}
+	if(tabuleiro[horizontal][vertical]==jog2)
+	{
+		printf("Agora digite a posicao que deseja movimentar a peca. Lembrando que voce so pode movimentar para as posicoes proximas\n");
+		printf("Jogador 2 digite a posicao horizontal\n");
+		scanf("%d",&horizontal2);
+		printf("Agora digite a vertical\n");
+		scanf("%d",&vertical2);
+		while(tabuleiro[horizontal2][vertical2]!=0)
+		{
+			system("cls");
+			mostratabuleiro();
+			printf("Posicao invalida. Digite novamente\n");
+			printf("Jogador 2 digite a posicao horizontal\n");
+			scanf("%d",&horizontal2);
+			printf("Agora digite a vertical\n");
+			scanf("%d",&vertical2);
+		}
+		if(tabuleiro[horizontal2][vertical2]==0)
+		{
+			tabuleiro[horizontal2][vertical2]=jog2;
+			tabuleiro[horizontal][vertical]=0;
+		}
+	}
+}
+
+void comparacao2()
+{
+	int i,conta2[10],horiz,vertic;
+	for(i=0;i<10;i++)
+	{
+		conta2[i]=0;
+	}
+	
+	if((tabuleiro[1][1]==jog2)&&(tabuleiro[2][2]==jog2)&&(tabuleiro[3][3]==jog2))
+			{
+				conta2[0]+=1;
+			}
+	else if((tabuleiro[4][1]==jog2)&&(tabuleiro[4][2]==jog2)&&(tabuleiro[4][3]==jog2))
+			{
+					conta2[1]+=1;
+			}
+	else if((tabuleiro[3][3]==jog2)&&(tabuleiro[4][3]==jog2)&&(tabuleiro[5][3]==jog2))
+			{
+					conta2[2]+=1;
+			}
+	else if((tabuleiro[7][1]==jog2)&&(tabuleiro[6][2]==jog2)&&(tabuleiro[5][3]==jog2))
+			{
+					conta2[3]+=1;
+			}
+	else if((tabuleiro[1][4]==jog2)&&(tabuleiro[2][4]==jog2)&&(tabuleiro[3][4]==jog2))
+			{
+					conta2[4]+=1;
+			}
+	else if((tabuleiro[5][4]==jog2)&&(tabuleiro[6][4]==jog2)&&(tabuleiro[7][4]==jog2))
+			{
+					conta2[5]+=1;
+			}
+	else if((tabuleiro[3][5]==jog2)&&(tabuleiro[4][5]==jog2)&&(tabuleiro[5][5]==jog2))
+			{
+					conta2[6]+=1;
+			}
+	else if((tabuleiro[3][5]==jog2)&&(tabuleiro[2][6]==jog2)&&(tabuleiro[1][7]==jog2))
+			{
+					conta2[7]+=1;
+			}
+	else if((tabuleiro[4][5]==jog2)&&(tabuleiro[4][6]==jog2)&&(tabuleiro[4][7]==jog2))
+			{
+					conta2[8]+=1;
+			}
+	else if((tabuleiro[5][5]==jog2)&&(tabuleiro[6][6]==jog2)&&(tabuleiro[7][7]==jog2))
+			{
+					conta2[9]+=1;
+			}
+			
+	for(i=0;i<10;i++)
+	{
+		if(conta2[i]==1)
+		{
+			system("cls");
+			mostratabuleiro();
+			printf("OBAAAAAAA TRILHAAAAAAAAAAA\n");
+			printf("Jogadador 2 digite a posicao horizontal da peca do jogador 1 que deseja excluir\n");
+			scanf("%d",&horiz);
+			printf("Agora digite a vertical\n ");
+			scanf("%d",&vertic);
+			system("cls");
+			while(tabuleiro[horiz][vertic]==0||horiz<1||horiz>7||vertic<1||vertic>7)
+			{
+				printf("Posicao invalida. Digite novamente\n");
+				printf("Digite a posicao horizontal do jogador 1 da peca que deseja excluir \n");
+				scanf("%d",&horiz);
+				printf("Digite a vertical jogador 2 da peca a excluir \n");
+				scanf("%d",&vertic);
+				system("cls");
+			}
+			exclusao2(horiz,vertic);
+			conta2[i]=0;
+		}
+	}
+}
+
+void exclusao1(int horizontal,int vertical)
+{
+	if(tabuleiro[horizontal][vertical]==jog2)
+		tabuleiro[horizontal][vertical]=0;
+				
+}
+
+void exclusao2(int horizontal,int vertical)
+{
+	if(tabuleiro[horizontal][vertical]==jog1)
+		tabuleiro[horizontal][vertical]=0;
+}
+
+void comparacao1()
+{
+	int i,conta[10],horiz,vertic;
+	for(i=0;i<10;i++)
+	{
+		conta[i]=0;
+	}
+	
+	if((tabuleiro[1][1]==8)&&(tabuleiro[2][2]==8)&&(tabuleiro[3][3]==8))
+			{
+				conta[0]+=1;
+			}
+	else if((tabuleiro[4][1]==8)&&(tabuleiro[4][2]==8)&&(tabuleiro[4][3]==8))
+			{
+					conta[1]+=1;
+			}
+	else if((tabuleiro[3][3]==8)&&(tabuleiro[4][3]==8)&&(tabuleiro[5][3]==8))
+			{
+					conta[2]+=1;
+			}
+	else if((tabuleiro[7][1]==8)&&(tabuleiro[6][2]==8)&&(tabuleiro[5][3]==8))
+			{
+					conta[3]+=1;
+			}
+	else if((tabuleiro[1][4]==8)&&(tabuleiro[2][4]==8)&&(tabuleiro[3][4]==8))
+			{
+					conta[4]+=1;
+			}
+	else if((tabuleiro[5][4]==8)&&(tabuleiro[6][4]==8)&&(tabuleiro[7][4]==8))
+			{
+					conta[5]+=1;
+			}
+	else if((tabuleiro[3][5]==8)&&(tabuleiro[4][5]==8)&&(tabuleiro[5][5]==8))
+			{
+					conta[6]+=1;
+			}
+	else if((tabuleiro[3][5]==8)&&(tabuleiro[2][6]==8)&&(tabuleiro[1][7]==8))
+			{
+					conta[7]+=1;
+			}
+	else if((tabuleiro[4][5]==8)&&(tabuleiro[4][6]==8)&&(tabuleiro[4][7]==8))
+			{
+					conta[8]+=1;
+			}
+	else if((tabuleiro[5][5]==8)&&(tabuleiro[6][6]==8)&&(tabuleiro[7][7]==8))
+			{
+					conta[9]+=1;
+			}
+			
+	for(i=0;i<10;i++)
+	{
+		if(conta[i]==1)
+		{
+			system("cls");
+			mostratabuleiro();
+			printf("OBAAAAAAA TRILHAAAAAAAAAAA\n");
+			printf("Jogadador 1 digite a posicao horizontal da peca do jogador 2 que deseja excluir\n");
+			scanf("%d",&horiz);
+			printf("Agora digite a vertical\n ");
+			scanf("%d",&vertic);
+			system("cls");
+			while(tabuleiro[horiz][vertic]!=0||horiz<1||horiz>7||vertic<1||vertic>7)
+			{
+				printf("Posicao invalida. Digite novamente\n");
+				printf("Digite a posicao horizontal do jogador 2 a peca que deseja excluir \n");
+				scanf("%d",&horiz);
+				printf("Digite a vertical jogador 1 \n");
+				scanf("%d",&vertic);
+				system("cls");
+			}
+			exclusao1(horiz,vertic);
+			conta[i]=0;
+		}
+	}
+}
+                 
+
+int main(){
+	mostratabuleiro();
+	printf("\n\t################JOGO DE TRILHA#######################\n");
+	jogadores();
+	
+	
+	return 0;
+}
